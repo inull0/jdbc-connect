@@ -7,7 +7,7 @@
  * 2017/4/10 Connect 构造函数机上异常状态触发
  * 
  */
-package cn.sharcom.data;
+package mydata;
 
 /*
  * 数据库连接类
@@ -18,7 +18,6 @@ import javax.sql.*;
 import javax.naming.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import cn.sharcom.config.Constant;
 
 public class Connect
 {

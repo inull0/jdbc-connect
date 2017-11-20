@@ -1,6 +1,6 @@
 /*
  * 数据库连接类
- * 每一个连接实体用一个 Connect，循环体务必注意
+ * 每一个连接实体用一个 Connect，循环体务必注用完关闭 Close();
  * 修改日志：<br>
  * 2016/7/1 增加关闭自动提交和提交函数
  * 2017/2/27 修正一些规范性设置，稳定性提高
@@ -22,6 +22,9 @@ import org.apache.logging.log4j.Logger;
 public class Connect
 {
   private static final Logger logger = LogManager.getLogger(Connect.class);
+  
+  // j2ee JNDI Name
+  private String JNDI_NAME = "jdbc/database";
 
   private Connection conn = null;
   private Statement stmt = null;
@@ -59,8 +62,8 @@ public class Connect
         Context context = new InitialContext();
         logger.debug("InitialContext success");
 
-        DataSource dataSource = (DataSource) context.lookup(Constant.JNDI_NAME);
-        logger.debug(String.format("DataSource lookup \"%s\" %s", Constant.JNDI_NAME, "success"));
+        DataSource dataSource = (DataSource) context.lookup(JNDI_NAME);
+        logger.debug(String.format("DataSource lookup \"%s\" %s", JNDI_NAME, "success"));
 
         conn = dataSource.getConnection();
         logger.debug(String.format("Connection dataSource %s", "success"));
@@ -105,7 +108,7 @@ public class Connect
         //
         Class.forName("com.mysql.jdbc.Driver");
         // 创建连接 URL
-        final String url = String.format("jdbc:mysql://127.0.0.1:3306/editor?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8",
+        final String url = String.format("jdbc:mysql://127.0.0.1:3306/mydatabase?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8",
             "root", "123456");
 
         // final String url =

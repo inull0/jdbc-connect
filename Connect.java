@@ -8,7 +8,7 @@
  * 2018-4-20 增加存储过程获取对象的函数
  * 
  */
-package com.sfang.data;
+package cn.sharcom.speedacc.data;
 
 /*
  * 数据库连接类
@@ -19,7 +19,7 @@ import javax.sql.*;
 import javax.naming.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.sfang.config.Constant;
+import cn.sharcom.speedacc.config.Constant;
 
 public class Connect
 {
@@ -38,7 +38,9 @@ public class Connect
   // 查看 java.library.path 目录内容：
   // System.out.println(System.getProperty("java.library.path"));
   // 需要将 dll 放到 C:\java\jvm\jdk\bin
-  private String JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=sfmis2;integratedSecurity=true";
+  // private String JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=sfmis2;integratedSecurity=true";
+  private String JDBC_URL = String
+      .format("jdbc:mysql://127.0.0.1:3306/speedacc?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8", "root", "123456");
 
   /**
    * 连接模式：J2EE 环境下，连接池方式
@@ -134,8 +136,8 @@ public class Connect
       try
       {
         //
-        // Class.forName("com.mysql.jdbc.Driver");
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        Class.forName("com.mysql.jdbc.Driver");
+        // Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         // 创建连接 URL
         // final String url =
         // String.format("jdbc:mysql://127.0.0.1:3306/editor?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8", "root",
@@ -430,7 +432,7 @@ public class Connect
       resultSet = stmt.executeQuery(sql);
       if (resultSet.first() == true)
       {
-        result = resultSet.getLong("id");
+        result =  resultSet.getLong("id");
         logger.debug("getLastInsertId is success");
       }
       else

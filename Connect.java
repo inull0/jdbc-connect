@@ -8,7 +8,7 @@
  * 2018-4-20 增加存储过程获取对象的函数
  * 
  */
-package com.sfang.data;
+package test;
 
 /*
  * 数据库连接类

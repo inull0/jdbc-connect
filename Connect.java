@@ -57,7 +57,7 @@ public class Connect
   public Connect() throws SQLException
   {
     // 默认使用应用服务器的连接池
-    _Connect(JNDI_MODE);
+    ConfigConnect(JNDI_MODE);
   }
 
   /**
@@ -67,7 +67,7 @@ public class Connect
    */
   public Connect(final int mode) throws SQLException
   {
-    _Connect(mode);
+    ConfigConnect(mode);
   }
 
   /**
@@ -76,7 +76,7 @@ public class Connect
    * @param mode
    *          连接模式：JNDI 和 URL
    */
-  private void _Connect(final int mode) throws SQLException
+  private void ConfigConnect(final int mode) throws SQLException
   {
     // J2EE 环境下连接池
     if (mode == JNDI_MODE)

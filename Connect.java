@@ -107,8 +107,8 @@ public class Connect
         //
         Class.forName("com.mysql.jdbc.Driver");
         // 创建连接 URL
-        final String url = String.format("jdbc:mysql://127.0.0.1:3306/editor?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8",
-            "root", "123456");
+        final String url = String.format(
+            "jdbc:mysql://127.0.0.1:3306/editor?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8", "root", "123456");
 
         // final String url =
         // String.format("jdbc:mysql://120.76.114.155:3306/editor?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8",
@@ -291,6 +291,15 @@ public class Connect
   {
     // storedProc
     cstmt = conn.prepareCall(sql);
+    return cstmt;
+  }
+
+  /**
+   * 获取存储过程对象
+   * @return
+   */
+  public CallableStatement getCallableStatement()
+  {
     return cstmt;
   }
 

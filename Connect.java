@@ -8,7 +8,7 @@
  * 2018-4-20 增加存储过程获取对象的函数
  * 
  */
-package test;
+package com.sfang.data;
 
 /*
  * 数据库连接类
@@ -33,6 +33,13 @@ public class Connect
 
   private boolean connected = false;
 
+  // sql server 连接需要 sqljdbc_auth.dll 支持,
+  // sqljdbc_auth.dll 需要放到 java.library.path 目录中
+  // 查看 java.library.path 目录内容：
+  // System.out.println(System.getProperty("java.library.path"));
+  // 需要将 dll 放到 C:\java\jvm\jdk\bin
+  private String JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=sfmis2;integratedSecurity=true";
+
   /**
    * 连接模式：J2EE 环境下，连接池方式
    */
@@ -43,12 +50,33 @@ public class Connect
   public static int URL_MODE = 200;
 
   /**
+   * 默认使用应用服务器的数据连接池
+   * 
+   * @throws SQLException
+   */
+  public Connect() throws SQLException
+  {
+    // 默认使用应用服务器的连接池
+    _Connect(JNDI_MODE);
+  }
+
+  /**
+   * 
+   * @param mode
+   * @throws SQLException
+   */
+  public Connect(final int mode) throws SQLException
+  {
+    _Connect(mode);
+  }
+
+  /**
    * 初始化连接
    * 
    * @param mode
    *          连接模式：JNDI 和 URL
    */
-  public Connect(final int mode) throws SQLException
+  private void _Connect(final int mode) throws SQLException
   {
     // J2EE 环境下连接池
     if (mode == JNDI_MODE)
@@ -106,17 +134,21 @@ public class Connect
       try
       {
         //
-        Class.forName("com.mysql.jdbc.Driver");
+        // Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         // 创建连接 URL
-        final String url = String.format(
-            "jdbc:mysql://127.0.0.1:3306/editor?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8", "root", "123456");
+        // final String url =
+        // String.format("jdbc:mysql://127.0.0.1:3306/editor?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8", "root",
+        // "123456");
 
         // final String url =
         // String.format("jdbc:mysql://120.76.114.155:3306/editor?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8",
         // "tuwen", "tuwen123");
 
+        // String JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=sfmis2;integratedSecurity=true";
+
         // 连接 …… 并得到 connection
-        conn = DriverManager.getConnection(url);
+        conn = DriverManager.getConnection(JDBC_URL);
         // Statement
         stmt = conn.createStatement();
         // 修改連接狀態
@@ -297,6 +329,7 @@ public class Connect
 
   /**
    * 获取存储过程对象
+   * 
    * @return
    */
   public CallableStatement getCallableStatement()
@@ -536,4 +569,5 @@ public class Connect
       conn = null;
     }
   }
+
 }

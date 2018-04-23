@@ -7,8 +7,11 @@
  * 2017-4-10 Connect 构造函数机上异常状态触发
  * 2018-4-20 增加存储过程获取对象的函数
  * 
+ * glassfish resource type: javax.sql.ConnectionPoolDataSource
+ * glassfish datasource classname: com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource
+ * 
  */
-package cn.sharcom.speedacc.data;
+package data;
 
 /*
  * 数据库连接类
@@ -45,11 +48,11 @@ public class Connect
   /**
    * 连接模式：J2EE 环境下，连接池方式
    */
-  public static int JNDI_MODE = 100;
+  public final static int JNDI_MODE = 100;
   /**
    * 控制台环境下，URL 连接方式（用于jUnit测试）
    */
-  public static int URL_MODE = 200;
+  public final static int URL_MODE = 200;
 
   /**
    * 默认使用应用服务器的数据连接池
@@ -98,7 +101,9 @@ public class Connect
         logger.debug(String.format("Connection dataSource %s", "success"));
 
         // sql server jdbc 调用 first 需要如下参数
-        stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        // stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        // mysql
+        stmt = conn.createStatement();
         logger.debug(String.format("CreateStatement %s", "success"));
 
         // 修改連接狀態
@@ -432,7 +437,7 @@ public class Connect
       resultSet = stmt.executeQuery(sql);
       if (resultSet.first() == true)
       {
-        result =  resultSet.getLong("id");
+        result = resultSet.getLong("id");
         logger.debug("getLastInsertId is success");
       }
       else

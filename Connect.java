@@ -22,7 +22,6 @@ import javax.sql.*;
 import javax.naming.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import cn.sharcom.speedacc.config.Constant;
 
 public class Connect
 {
@@ -94,6 +93,7 @@ public class Connect
         Context context = new InitialContext();
         logger.debug("InitialContext success");
 
+        // Constant.JNDI_NAME is j2ee service JNDI name, "jdbc/database"
         DataSource dataSource = (DataSource) context.lookup(Constant.JNDI_NAME);
         logger.debug(String.format("DataSource lookup \"%s\" %s", Constant.JNDI_NAME, "success"));
 

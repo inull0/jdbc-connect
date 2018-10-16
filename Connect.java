@@ -11,7 +11,7 @@
  * glassfish datasource classname: com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource
  * 
  */
-package data;
+package cn.sharcom.speedacc.data;
 
 /*
  * 数据库连接类
@@ -22,6 +22,7 @@ import javax.sql.*;
 import javax.naming.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import cn.sharcom.speedacc.config.Constant;
 
 public class Connect
 {
@@ -85,26 +86,26 @@ public class Connect
     // J2EE 环境下连接池
     if (mode == JNDI_MODE)
     {
-      logger.debug("JNDI_MODE begin ...");
+      logger.info("JNDI_MODE begin ...");
 
       // 连接数据库
       try
       {
         Context context = new InitialContext();
-        logger.debug("InitialContext success");
+        logger.info("InitialContext success");
 
         // Constant.JNDI_NAME is j2ee service JNDI name, "jdbc/database"
         DataSource dataSource = (DataSource) context.lookup(Constant.JNDI_NAME);
-        logger.debug(String.format("DataSource lookup \"%s\" %s", Constant.JNDI_NAME, "success"));
+        logger.info(String.format("DataSource lookup \"%s\" %s", Constant.JNDI_NAME, "success"));
 
         conn = dataSource.getConnection();
-        logger.debug(String.format("Connection dataSource %s", "success"));
+        logger.info(String.format("Connection dataSource %s", "success"));
 
         // sql server jdbc 调用 first 需要如下参数
         // stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         // mysql
         stmt = conn.createStatement();
-        logger.debug(String.format("CreateStatement %s", "success"));
+        logger.info(String.format("CreateStatement %s", "success"));
 
         // 修改連接狀態
         connected = true;
@@ -307,12 +308,10 @@ public class Connect
    * @return Statement
    * @throws SQLException
    */
-  public Statement getStatement() throws SQLException
+  public Statement getStatement()
   {
-    // 创建 statement
-
     // mysql use
-    stmt = conn.createStatement();
+    // stmt = conn.createStatement();
     // mssql use
     // stmt =
     // conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
@@ -376,9 +375,14 @@ public class Connect
     }
     else
     {
-      logger.debug("connect: pstmt.executeQuery()");
-      if (pstmt != null)
+      if (cstmt != null)
       {
+        logger.debug("connect: cstmt.executeQuery()");
+        rs = cstmt.executeQuery();
+      }
+      else if (pstmt != null)
+      {
+        logger.debug("connect: pstmt.executeQuery()");
         rs = pstmt.executeQuery();
       }
     }
@@ -397,9 +401,16 @@ public class Connect
   {
     int result = 0;
 
-    if (sql == null && pstmt != null)
+    if (sql == null)
     {
-      result = pstmt.executeUpdate();
+      if (cstmt != null)
+      {
+        result = cstmt.executeUpdate();
+      }
+      else if (pstmt != null)
+      {
+        result = pstmt.executeUpdate();
+      }
     }
     else
     {
@@ -546,7 +557,7 @@ public class Connect
       {
         e.printStackTrace();
       }
-      stmt = null;
+      // stmt = null;
     }
 
     // Close PreparedStatement
@@ -560,7 +571,7 @@ public class Connect
       {
         e.printStackTrace();
       }
-      pstmt = null;
+      // pstmt = null;
     }
 
     // storedProc
@@ -574,7 +585,7 @@ public class Connect
       {
         e.printStackTrace();
       }
-      cstmt = null;
+      // cstmt = null;
     }
 
     if (conn != null)
@@ -587,7 +598,7 @@ public class Connect
       {
         e.printStackTrace();
       }
-      conn = null;
+      // conn = null;
     }
   }
 

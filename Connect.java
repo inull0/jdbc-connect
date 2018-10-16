@@ -11,7 +11,7 @@
  * glassfish datasource classname: com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource
  * 
  */
-package cn.sharcom.speedacc.data;
+package test
 
 /*
  * 数据库连接类
@@ -42,8 +42,8 @@ public class Connect
   // System.out.println(System.getProperty("java.library.path"));
   // 需要将 dll 放到 C:\java\jvm\jdk\bin
   // private String JDBC_URL = "jdbc:sqlserver://localhost:1433;databaseName=sfmis2;integratedSecurity=true";
-  private String JDBC_URL = String
-      .format("jdbc:mysql://127.0.0.1:3306/speedacc?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8", "root", "123456");
+  private String JDBC_URL = String.format("jdbc:mysql://%s:%s/mydata?user=%s&password=%s&useSSL=false&characterEncoding=UTF-8",
+      "127.0.0.1", "3306", "root", "123456");
 
   /**
    * 连接模式：J2EE 环境下，连接池方式

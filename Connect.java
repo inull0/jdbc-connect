@@ -9,6 +9,7 @@
  * 
  * glassfish resource type: javax.sql.ConnectionPoolDataSource
  * glassfish datasource classname: com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource
+ *
  * 
  */
 package test

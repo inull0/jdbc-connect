@@ -7,6 +7,7 @@ if(connect.executeUpdate(sql) == 1)
 {
  // 执行成功
 }
+
 connect.Close();
 
 查询 Connect connect = new Connect(Connect.URL_MODE);

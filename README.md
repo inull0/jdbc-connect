@@ -1,7 +1,7 @@
 # jdbc-connect
 Description Description 
 
-创建连接
+// new connect
 Connect connect = new Connect(Connect.URL_MODE);
 if(connect.executeUpdate(sql) == 1)
 {
@@ -9,7 +9,8 @@ if(connect.executeUpdate(sql) == 1)
 }
 connect.Close();
 
-查询 Connect connect = new Connect(Connect.URL_MODE);
+// Query
+Connect connect = new Connect(Connect.URL_MODE);
 connect.executeQuery(sql);
 while (connect.getResultSet().next() == true)
 {
@@ -18,7 +19,8 @@ System.out.println(val);
 }
 connect.Close();
 
-// 一个演示 Connect connect = null; try { connect = new Connect(Connect.JNDI_MODE);
+// Demo
+Connect connect = null; try { connect = new Connect(Connect.JNDI_MODE);
 
 connect.executeQuery(sql);
 while (connect.getResultSet().next() == true)
